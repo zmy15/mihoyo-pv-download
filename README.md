@@ -2,7 +2,7 @@
 _✨ 米哈游角色PV/角色演示批量下载 ✨_
 
 
-##使用教程
+## 使用教程
 
 1、安装python
 
@@ -16,7 +16,7 @@ pip install -r requirements.txt
 python main.py
 ```
 
-##注意事项
+## 注意事项
 使用前先下载edge浏览器和驱动,注意版本
 
 驱动下载地址 `https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/?form=MA13LH#downloads`
