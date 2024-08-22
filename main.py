@@ -1,4 +1,5 @@
 import os
+import re
 import time
 import requests
 from selenium import webdriver
@@ -49,6 +50,10 @@ def download_video(driver, url, save_dir):
     # 获取页面标题
     time.sleep(5)
     page_title = driver.title.strip().replace(' ', '_')
+    invalid_chars = r'[\/:*?"<>|]'
+
+    # 使用正则表达式替换掉非法字符
+    filename = re.sub(invalid_chars, '', page_title)
 
     # 查找所有<video>标签的src属性
     video_tags = driver.find_elements(By.TAG_NAME, 'video')
@@ -60,7 +65,7 @@ def download_video(driver, url, save_dir):
         print(f'未找到视频链接: {url}')
         return
 
-    video_filename = os.path.join(save_dir, f'{page_title}.mp4')
+    video_filename = os.path.join(save_dir, f'{filename}.mp4')
 
     # 如果文件已存在，跳过下载
     if os.path.exists(video_filename):
@@ -100,7 +105,7 @@ def download_videos(url_file, save_dir):
 
 if __name__ == "__main__":
 
-    game = input("输入要爬取的游戏\n原神输入:ys\n星铁输入:sr\n")
+    game = input("输入要爬取的游戏\n原神输入:ys\n星铁输入:sr\n绝区零输入:zzz\n")
     state = input("是否获取最新数据(是:Y/否:N)\n")
 
     if state in ['Y', 'y', 'yes', 'Yes', '是', '1']:
@@ -118,3 +123,10 @@ if __name__ == "__main__":
 
         download_videos('ys_角色PV_links.txt', save_dir_pv)
         download_videos('ys_角色演示_links.txt', save_dir_show)
+
+    elif game == 'zzz':
+        save_dir_pv = './videos/zzz/pv/'
+        save_dir_show = './videos/zzz/show/'
+
+        download_videos('zzz_角色PV_links.txt', save_dir_pv)
+        download_videos('zzz_角色展示_links.txt', save_dir_show)
